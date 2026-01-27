@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axios";
 import { MessagesPage } from "@/utils/types";
-
-const PAGE_SIZE = 50;
+import { PAGE_SIZE } from "@/utils/constants";
 
 async function fetchMessages(
   threadId: string,

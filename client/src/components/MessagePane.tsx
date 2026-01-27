@@ -4,6 +4,7 @@ import { useThreadMessagesInfinite } from "@/hooks/useThreadsMessages";
 import { useThreadStream } from "@/hooks/useThreadStream";
 import { MessageComposer } from "@/components/MessageComposer";
 import { MessageListVirtual } from "@/components/MessageListVirtual";
+import { ArrowIcon } from "@/utils/icons";
 
 type Props = {
   threadId: string | null;
@@ -17,6 +18,7 @@ export function MessagePane({ threadId }: Props) {
 
   const isAtBottomRef = useRef(true);
   const [showNewPill, setShowNewPill] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const [jumpToken, setJumpToken] = useState<number>(0);
   const lastMsgIdRef = useRef<string | null>(null);
 
@@ -26,7 +28,11 @@ export function MessagePane({ threadId }: Props) {
       if (lastMsg?.id !== lastMsgIdRef.current) {
         lastMsgIdRef.current = lastMsg?.id;
         if (!isAtBottomRef.current) {
-          requestAnimationFrame(() => setShowNewPill(true));
+          setTimeout(() => {
+            if (!isAtBottomRef.current) {
+              setShowNewPill(true);
+            }
+          }, 100);
         }
       }
     }
@@ -34,8 +40,13 @@ export function MessagePane({ threadId }: Props) {
 
   const onAtBottomChange = useCallback((atBottom: boolean) => {
     isAtBottomRef.current = atBottom;
-    if (atBottom) setShowNewPill(false);
-  }, []);
+    if (atBottom) {
+      setShowNewPill(false);
+      setShowScrollButton(false);
+    } else if (messages.length > 0) {
+      setShowScrollButton(true);
+    }
+  }, [messages.length]);
 
   const onLoadOlder = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -88,6 +99,13 @@ export function MessagePane({ threadId }: Props) {
                 onAtBottomChange={onAtBottomChange}
                 jumpToBottomSignal={jumpToken}
             />
+            {showScrollButton ?
+              <ArrowIcon
+                className="absolute bottom-4 right-16 rotate-270 z-10 w-8 h-8 bg-primary/80 text-dark p-1.5 rounded-full cursor-pointer hover:bg-primary"
+                onClick={onJumpToBottom}
+              />
+              : null
+            }
           </>
           : null
         }

@@ -157,24 +157,22 @@ export function MessageListVirtual({
   }, [messages.length]);
 
   const lastMsgIdRef = useRef<string | null>(null);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     const last = messages[messages.length - 1];
     const lastId = last?.id ?? null;
 
     if (lastId && lastId !== lastMsgIdRef.current) {
       lastMsgIdRef.current = lastId;
       
-      const el = getOuterElement();
-      if (el && atBottomRef.current) {
-        const distance = el.scrollHeight - (el.scrollTop + el.clientHeight);
-        const actuallyAtBottom = distance <= BOTTOM_THRESHOLD;
-        
-        if (actuallyAtBottom) {
-          requestAnimationFrame(scrollToBottom);
-        }
+      if (atBottomRef.current) {
+        requestAnimationFrame(() => {
+          scrollToBottom();
+          computeAtBottom();
+        });
       }
     }
-  }, [messages, scrollToBottom, getOuterElement]);
+  }, [messages, scrollToBottom, computeAtBottom]);
 
   const lastJumpSignalRef = useRef(jumpToBottomSignal);
   useEffect(() => {

@@ -16,3 +16,9 @@ export const CrossIcon = (props: React.SVGProps<SVGSVGElement>) => (
         <path d="m13.5 4.5-9 9m0-9 9 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
+export const ArrowIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" {...props}>
+        <path d="m12.845 4.144-8.83 7.933a.75.75 0 0 0 .02 1.132l9.098 7.62a.187.187 0 0 0 .307-.146l-.033-1.898a.38.38 0 0 0-.133-.281l-6.001-5.028 13.195-.228a.19.19 0 0 0 .184-.19l-.024-1.407a.19.19 0 0 0-.19-.184l-13.196.228 5.824-5.232a.37.37 0 0 0 .123-.286l-.032-1.898a.187.187 0 0 0-.312-.135" fill="currentColor" />
+    </svg>
+);
