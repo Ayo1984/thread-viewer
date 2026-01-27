@@ -88,6 +88,8 @@ export function MessageListVirtual({
   }, [hasOlder, isFetchingOlder, onLoadOlder, computeAtBottom, messages.length, getOuterElement]);
 
   useEffect(() => {
+    scrollListenerAttachedRef.current = false;
+    
     setupScrollListener();
 
     return () => {
@@ -99,71 +101,48 @@ export function MessageListVirtual({
         scrollHandlerRef.current = null;
       }
     };
-  }, [setupScrollListener]);
-
-  useEffect(() => {
-    scrollListenerAttachedRef.current = false;
-  }, [resetKey]);
+  }, [setupScrollListener, resetKey]);
 
   useEffect(() => {
     if (hasScrolledToBottomForThreadRef.current !== resetKey) {
       hasScrolledToBottomForThreadRef.current = null;
-      initialMessageCountRef.current = null;
-    }
-
-    if (initialMessageCountRef.current === null && messages.length > 0) {
-      initialMessageCountRef.current = messages.length;
+      initialMessageCountRef.current = messages.length > 0 ? messages.length : null;
     }
 
     if (
-      messages.length === 0 ||
       hasScrolledToBottomForThreadRef.current === resetKey ||
-      initialMessageCountRef.current === null
+      messages.length === 0 ||
+      initialMessageCountRef.current === null ||
+      messages.length !== initialMessageCountRef.current
     ) {
       return;
     }
 
-    if (messages.length !== initialMessageCountRef.current) {
-      return;
-    }
-
-    let retries = 0;
-    const maxRetries = 10;
     const initialCount = initialMessageCountRef.current;
-
-    const attemptScroll = () => {
-      if (messages.length !== initialCount) {
-        return;
-      }
-
+    const attemptScroll = (retries = 0) => {
       const el = getOuterElement();
       if (!el) {
-        if (retries < maxRetries) {
-          retries++;
-          requestAnimationFrame(attemptScroll);
+        if (retries < 10) {
+          requestAnimationFrame(() => attemptScroll(retries + 1));
         }
         return;
       }
 
-      const minExpectedHeight = initialCount * ROW_HEIGHT * 0.5;
-      if (el.scrollHeight < minExpectedHeight && retries < maxRetries) {
-        retries++;
-        requestAnimationFrame(attemptScroll);
+      const minHeight = initialCount * ROW_HEIGHT * 0.5;
+      if (el.scrollHeight < minHeight && retries < 10) {
+        requestAnimationFrame(() => attemptScroll(retries + 1));
         return;
       }
 
       hasScrolledToBottomForThreadRef.current = resetKey;
-
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollToBottom();
-          computeAtBottom();
-        });
+        scrollToBottom();
+        computeAtBottom();
       });
     };
 
     attemptScroll();
-  }, [resetKey, scrollToBottom, computeAtBottom, getOuterElement, messages.length]);
+  }, [resetKey, messages.length, scrollToBottom, computeAtBottom, getOuterElement]);
 
   useLayoutEffect(() => {
     const el = outerElRef.current;
@@ -234,10 +213,10 @@ function Row({
   if (!m) return null;
   return (
     <div style={style} className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
-      <div className="text-xs text-gray-500 dark:text-gray-400">
+      <p className="text-sm text-gray-900 dark:text-gray-100 truncate">{m.text}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-600">
         {new Date(m.createdAt).toLocaleString()}
-      </div>
-      <div className="text-sm text-gray-900 dark:text-gray-100 truncate">{m.text}</div>
+      </p>
     </div>
   );
 }

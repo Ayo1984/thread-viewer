@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 import { useThreads } from "@/hooks/useThreads";
 import { Thread } from "@/utils/types";
 import { formatDate } from "@/utils";
+import { CrossIcon } from "@/utils/icons";
 
 type Props = {
   selectedThreadId: string | null;
@@ -20,13 +21,20 @@ export function ThreadList({ selectedThreadId, onSelect }: Props) {
 
   return (
     <aside className="w-[300px] border-r border-gray-300 flex flex-col h-full overflow-hidden">
-      <input
-        placeholder="Search threads…"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        className="w-full py-2.5 px-4 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary shrink-0"
-      />
-
+      <div className="flex border-b border-gray-300">
+        <input
+          placeholder="Search threads…"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          className="py-2.5 px-4 flex-1 focus:outline-none shrink-0"
+        />
+        { query
+          ? <button className="p-2.5 cursor-pointer" onClick={() => setQuery("")}>
+            <CrossIcon className="w-5 h-5 hover:text-red-600" />
+          </button>
+          : null
+        }
+      </div>
       {loading && <p className="p-4 text-gray-600 shrink-0">Loading…</p>}
       {error && <p className="p-4 text-red-600 shrink-0">{error}</p>}
 

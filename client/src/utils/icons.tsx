@@ -10,3 +10,9 @@ export const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
         </defs>
     </svg>
 );
+
+export const CrossIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" {...props}>
+        <path d="m13.5 4.5-9 9m0-9 9 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
