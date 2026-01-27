@@ -13,6 +13,7 @@
 
 @theme {
   --color-primary: #49F264;
+  --color-dark: #1A1A1A;
 }
 
 @media (prefers-color-scheme: dark) {

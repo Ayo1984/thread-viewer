@@ -2,6 +2,7 @@
 import { useState, useCallback } from "react";
 import { useThreads } from "@/hooks/useThreads";
 import { Thread } from "@/utils/types";
+import { formatDate } from "@/utils";
 
 type Props = {
   selectedThreadId: string | null;
@@ -42,7 +43,7 @@ export function ThreadList({ selectedThreadId, onSelect }: Props) {
           >
             <div className="font-medium">{t.title}</div>
             <small className="text-gray-500 dark:text-gray-400">
-              {new Date(t.lastMessageAt).toLocaleString()}
+              {formatDate(new Date(t.lastMessageAt))}
             </small>
           </li>
         ))}
