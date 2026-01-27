@@ -6,7 +6,7 @@ import { formatDate } from "@/utils";
 
 type Props = {
   selectedThreadId: string | null;
-  onSelect: (id: string) => void;
+  onSelect: (id: string, title: string) => void;
 };
 
 export function ThreadList({ selectedThreadId, onSelect }: Props) {
@@ -14,7 +14,7 @@ export function ThreadList({ selectedThreadId, onSelect }: Props) {
   const { threads, loading, error } = useThreads(query);
 
   const handleSelect = useCallback(
-    (id: string) => () => onSelect(id),
+    (id: string, title: string) => () => onSelect(id, title),
     [onSelect]
   );
 
@@ -24,7 +24,7 @@ export function ThreadList({ selectedThreadId, onSelect }: Props) {
         placeholder="Search threads…"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="w-full py-2 px-4 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary shrink-0"
+        className="w-full py-2.5 px-4 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary shrink-0"
       />
 
       {loading && <p className="p-4 text-gray-600 shrink-0">Loading…</p>}
@@ -34,7 +34,7 @@ export function ThreadList({ selectedThreadId, onSelect }: Props) {
         {threads.map((t: Thread) => (
           <li
             key={t.id}
-            onClick={handleSelect(t.id)}
+            onClick={handleSelect(t.id, t.title)}
             className={`py-2 px-4 cursor-pointer transition-colors ${
               t.id === selectedThreadId
                 ? "bg-primary/20 border-l-4 border-primary"
