@@ -39,7 +39,7 @@ export function MessageComposer({ threadId }: Props) {
       }
       <input
         type="text"
-        className="flex-1 rounded-md border border-gray-300 px-3 py-2 outline-none focus:border-primary"
+        className="flex-1 text-dark dark:text-white rounded-md border border-dark/50 dark:border-gray-300 px-3 py-2 outline-none focus:border-dark dark:focus:border-primary/50"
         placeholder="Reply…"
         value={text}
         onChange={(e) => setText(e.target.value)}
