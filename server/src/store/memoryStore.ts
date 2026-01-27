@@ -60,9 +60,10 @@ export class MemoryStore {
   }
 
   addSseClient(threadId: string, client: SseClient) {
-    const clients = this.sseClientsByThread.get(threadId) ?? new Map();
-    clients.set(client.id, client);
-    this.sseClientsByThread.set(threadId, clients);
+    if (!this.sseClientsByThread.has(threadId)) {
+      this.sseClientsByThread.set(threadId, new Map());
+    }
+    this.sseClientsByThread.get(threadId)!.set(client.id, client);
   }
 
   removeSseClient(threadId: string, clientId: string) {
