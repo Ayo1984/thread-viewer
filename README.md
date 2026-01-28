@@ -92,7 +92,7 @@ Uses cursor-based pagination (50 messages per page). Older messages load when sc
 Server-Sent Events broadcast new messages to all connected clients in real-time.
 
 ### Scroll Behavior
-- Newest messages appear at the bottom (ChatGPT-style)
+- Newest messages appear at the bottom
 - Older messages load when scrolling up
 - Scroll position preserved when loading older messages
 - Auto-scrolls to bottom when new messages arrive (if user is at bottom)
