@@ -47,7 +47,7 @@ export function MessageComposer({ threadId }: Props) {
       />
       <button
         type="submit"
-        className="rounded-full bg-primary text-black p-3 disabled:opacity-50"
+        className="rounded-full bg-primary text-black p-3 disabled:opacity-50 cursor-pointer"
         disabled={mutation.isPending || !text.trim()}
       >
         <SendIcon className="w-5 h-5" />
