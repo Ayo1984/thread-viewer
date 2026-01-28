@@ -28,11 +28,12 @@ export function MessagePane({ threadId }: Props) {
       if (lastMsg?.id !== lastMsgIdRef.current) {
         lastMsgIdRef.current = lastMsg?.id;
         if (!isAtBottomRef.current) {
-          setTimeout(() => {
+          const timeoutId = setTimeout(() => {
             if (!isAtBottomRef.current) {
               setShowNewPill(true);
             }
           }, 100);
+          return () => clearTimeout(timeoutId);
         }
       }
     }
