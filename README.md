@@ -105,6 +105,8 @@ Server-Sent Events broadcast new messages to all connected clients in real-time.
 - `POST /threads/:id/messages` - Send a new message
 - `GET /threads/:id/stream` - SSE stream for real-time updates
 
+Postman Collection for Endpoints: https://.postman.co/workspace/My-Workspace~c37204b0-7fea-47c9-85c0-e29670bd16c3/collection/17409249-0ec1adc4-9256-497c-8ed3-0d009a2dcc57?action=share&creator=17409249
+
 ## Development Notes
 
 See [DECISIONS.md](./DECISIONS.md) for detailed architecture decisions and implementation notes.
