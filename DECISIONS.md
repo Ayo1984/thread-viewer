@@ -1,7 +1,12 @@
 ### How to run the app locally
 Install dependencies using your preferred package manager (I used npm)
-```cd server && npm install```
-```cd client && npm install```
+```bash
+cd server && npm install
+```
+
+```bash
+cd client && npm install
+```
 
 Start both server(4000 by default) and client(3000 by default)
 ```npm run dev```
@@ -42,7 +47,7 @@ Thread search is performed client side
 **Trade-off:** This is fine for the current dataset size. On a larger scale, search is more likely to be on the server-side with indexing and debouncing, resulting in accurate searches on larger datasets.
 
 
-#Decisions
+# Decisions
 
 ## Handling large numbers of messages
 The API currently seeds one thread with 25k messages to validate performance under load.
@@ -72,7 +77,8 @@ I used useCallback to avoid function recreations especially with all the scroll 
 I used useRef to keep track of scroll states mostly, for example, if user is at the bottom of the message list, or tracking ID of the last message in order to detect new messages.
 
 
-NOTES: Didn't use `unreadCount` as it was optional but instead implemented real-time "New messages" indicators that appear when messages arrive while the user is scrolled up.
+# NOTES
+Didn't use `unreadCount` as it was optional but instead implemented real-time "New messages" indicators that appear when messages arrive while the user is scrolled up.
 
 In a production environment with `unreadCount` support, I would:
 Store `unreadCount` per thread per user in the database, incrementing it when new messages arrive via SSE.
