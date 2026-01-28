@@ -3,9 +3,15 @@ import { MemoryStore } from "../store/memoryStore";
 import { z } from "zod";
 
 const getMessagesQuerySchema = z.object({
-  cursor: z.number().int().positive().nullable(),
-  limit: z.number().int().positive(),
-}).strict();
+  cursor: z.preprocess(
+    (val) => (val === undefined || val === "" ? null : Number(val)),
+    z.number().int().positive().nullable()
+  ),
+  limit: z.preprocess(
+    (val) => (val === undefined ? 50 : Number(val)),
+    z.number().int().positive().default(50)
+  ),
+});
 
 const postMessageBodySchema = z.object({
   text: z.string().min(1, "Text is required"),
